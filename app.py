@@ -2,14 +2,23 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.core.window import Window
 import datetime
-
+# import config.txt
 
 # The custom App class
 #   Widget creation code is removed
 #   Another example of abstraction at work!
 class CurrencyConvert(App):
 
-    # def __init__(self):
+    open('config.txt', encoding='utf-8')
+    in_file = open('config.txt', 'r')
+    in_file.readline()
+    # reader = txt.reader(in_file)
+    # for row in reader:
+    #     print(row)
+
+    # def __init__(self, trip_country, home_country, start_date, end_date ):
+    #     super().__init__(trip_country, home_country, start_date, end_date)
+    #     self.trip_details = config.txt
 
     def build(self):
         Window.size = (350, 700)
@@ -17,7 +26,7 @@ class CurrencyConvert(App):
         self.root = Builder.load_file('gui.kv')
         # self.country_code = sorted(COUNTRY.keys())
         # self.current_location = self.country_code[2]
-         return self.root
+        return self.root
 
     def current_location(self, current_location):
         self.current_location = current_location
@@ -35,7 +44,7 @@ class CurrencyConvert(App):
             return -1
 
     def update_details(self):
-        self.root.output_leabel.text = Update_Details
+        self.root.output_leabel.text = tkinter.Button(self.frame, text='Update Details', command=self.root.output_label.text_click)
         return self.root
 
 # create and start the App running
