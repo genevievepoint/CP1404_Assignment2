@@ -1,6 +1,5 @@
 from io import open
 from kivy.app import App
-import config.txt
 
 
 
@@ -66,31 +65,37 @@ if __name__ == '__main__':
         print(text)
 
 
-    print_conversion_test('invalid conversion', 1, 'AUD->AUD', convert(1, 'AUD', 'AUD'))
-    print_conversion_test('invalid conversion', 1, 'JPY->ABC', convert(1, 'JPY', 'ABC'))
-    print_conversion_test('invalid conversion', 1, 'ABC->USD', convert(1, 'ABC', 'USD'))
-
-    conversion_test(10.95, "AUD", "JPY")
-    conversion_test(10.95, "AUD", "BGN")
-    conversion_test(200.15, "BGN", "JPY")
-    conversion_test(100, "JPY", "USD")
-    conversion_test(19.99, "USD", "BGN")
-    conversion_test(19.99, "USD", "AUD")
-    print()
-
-
-    def print_details_test(test_type, test_info, test_result):
-        text = "{:>20} {:<10} {}".format(test_type, test_info, test_result)
-        print(text)
-
-
-    print_details_test('invalid details', 'ABC land', get_details("ABC land"))
-    print_details_test('invalid details', 'Japanese', get_details("Japanese"))
-    print_details_test('invalid details', '', get_details(""))
-
-    print_details_test('valid details', 'Australia', get_details("Australia"))
-    print_details_test('valid details', 'Japan', get_details("Japan"))
-    print_details_test('valid details', 'Hong Kong', get_details("Hong Kong"))
+    # print_conversion_test('invalid conversion', 1, 'AUD->AUD', convert(1, 'AUD', 'AUD'))
+    # print_conversion_test('invalid conversion', 1, 'JPY->ABC', convert(1, 'JPY', 'ABC'))
+    # print_conversion_test('invalid conversion', 1, 'ABC->USD', convert(1, 'ABC', 'USD'))
+    #
+    # conversion_test(10.95, "AUD", "JPY")
+    # conversion_test(10.95, "AUD", "BGN")
+    # conversion_test(200.15, "BGN", "JPY")
+    # conversion_test(100, "JPY", "USD")
+    # conversion_test(19.99, "USD", "BGN")
+    # conversion_test(19.99, "USD", "AUD")
+    # print()
+    #
+    #
+    # def print_details_test(test_type, test_info, test_result):
+    #     text = "{:>20} {:<10} {}".format(test_type, test_info, test_result)
+    #     print(text)
+    #
+    #
+    # print_details_test('invalid details', 'ABC land', get_details("ABC land"))
+    # print_details_test('invalid details', 'Japanese', get_details("Japanese"))
+    # print_details_test('invalid details', '', get_details(""))
+    #
+    # print_details_test('valid details', 'Australia', get_details("Australia"))
+    # print_details_test('valid details', 'Japan', get_details("Japan"))
+    # print_details_test('valid details', 'Hong Kong', get_details("Hong Kong"))
 
 
 def get_all_details():
+    file = open('currency_details.txt', encoding='utf-8')
+    place_dictionary = ()
+    for line in file:
+        parts = [part for part in line.strip().split(',')]
+        place_dictionary = [parts(0), parts(1), parts(2)]
+    return place_dictionary

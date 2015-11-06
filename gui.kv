@@ -4,6 +4,7 @@ BoxLayout:
 
         orientation: "horizontal"
         Label:
+            id: trip_location
             text: "Current Trip Location: "
             font_size: 32
 
@@ -12,27 +13,47 @@ BoxLayout:
         Spinner:
             id: country_selection
             on_text: app.change_country(self.text)
+            values:
             #on_press: app.trip_location()
             #on_press: app.change_accepted()
+            multiline: False
+            #padding_horizontal: 10
+            #padding_vertical: 10
         TextInput:
+            id: input_amount
+            text:
+            multiline: False
+            #padding_horizontal: 10
+            #padding_vertical: 10
 
     BoxLayout:
         orientation: "horizontal"
         Label:
-            text: "home_country"
+            id: home_country
+            text:
             font_size: 26
+            #padding_horizontal: 10
+            #padding_vertical: 10
+
         TextInput:
+            id: input_amount
+            on_text:
+            #padding_horizontal: 10
+            #padding_vertical: 10
 
     BoxLayout:
         orientation: "horizontal"
         Label:
+            id: current_date
             text: "Today is: "
 
     BoxLayout:
         orientation: "horizontal"
-        size_hint_y: 0.1
+        size_hint_y: 0.3
         Label:
-            text: "status"
+            id: status
+            text:
         Button:
             id: update_details
             text: "Update details"
+            on_press:
