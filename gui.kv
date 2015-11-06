@@ -5,23 +5,28 @@ BoxLayout:
         orientation: "horizontal"
         Label:
             id: trip_location
+            text:
             text: "Current Trip Location: "
             font_size: 32
+            #padding_horizontal: 10
+            #padding_vertical: 10
 
     BoxLayout:
         orientation: "horizontal"
         Spinner:
             id: country_selection
-            on_text: app.change_country(self.text)
             values:
+            font_size: 26
             #on_press: app.trip_location()
             #on_press: app.change_accepted()
             multiline: False
             #padding_horizontal: 10
             #padding_vertical: 10
         TextInput:
-            id: input_amount
+            id: target_amount
             text:
+            font_size: 26
+            on_text_validate: app.get_currency_conversion('to home')
             multiline: False
             #padding_horizontal: 10
             #padding_vertical: 10
@@ -36,8 +41,11 @@ BoxLayout:
             #padding_vertical: 10
 
         TextInput:
-            id: input_amount
+            id: home_amount
             on_text:
+            font_size: 26
+            on_text_validate: app.get_currency_conversion('to target')
+            multiline: False
             #padding_horizontal: 10
             #padding_vertical: 10
 
@@ -46,6 +54,7 @@ BoxLayout:
         Label:
             id: current_date
             text: "Today is: "
+            font_size: 26
 
     BoxLayout:
         orientation: "horizontal"
@@ -54,6 +63,6 @@ BoxLayout:
             id: status
             text:
         Button:
-            id: update_details
-            text: "Update details"
-            on_press:
+            id: update_currency
+            text: "Update Currency"
+            on_press: app.update_currency

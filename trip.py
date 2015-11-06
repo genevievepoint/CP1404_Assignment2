@@ -1,73 +1,73 @@
-__author__ = 'jc260183'
-
-# this is the exception class
-class Error:
-    def __init__(self, value):
-        super().__init__(value)
-
-
 class Country:
-    def __init__(self, name="", currency_code="", currency_symbol=""):
+    def __init__(self, name, code, symbol):
         self.name = name
-        self.currency_code = currency_code
-        self.currency_symbol = currency_symbol
+        self.code = code
+        self.symbol = symbol
 
-    def currency_string(self, amount):
-        # formats the currency to two decimal places
-        amount = '{:.2f}'.format(amount)
-        return str(amount)
+    def formatted_amount(self, amount):
+        return self.symbol + str(round(amount, 2))
 
     def __str__(self):
-        return self.name + ' ' + self.currency_code + ' ' + self.currency_symbol + ' '
+        return '{} ({})'.format(self.name, self.code)
+
+    @classmethod
+    def make(cls, data_list):
+        if not data_list:
+            raise Error("can't make country")
+        return Country(*data_list)
 
 
 class Details:
-    def __init__ (self, country_name, start_date, end_date):
-        self.country_name = country_name
-        self.start_date = start_date
-        self.end_date = end_date
+    def __init__(self):
         self.locations = []
 
     def add(self, country_name, start_date, end_date):
-        # adds a start date and end date makes sure that the date is in the correct format
-        self.locations.append((country_name, start_date, end_date))
-        start_date = start_date.strip().split('/')
-        if not len(start_date[0]) == 4 or len(start_date[1]) == 2 or len(start_date[2]) == 2:
-            raise Error('Date does not follow format. YYYY/MM/DD')
-
-        end_date = end_date.strip().split('/')
-        if not len(end_date[0]) == 4 or len(end_date[1]) == 2 or len(end_date[2]) == 2:
-            raise Error('Date does not follow format. YYYY/MM/DD')
-        if start_date < end_date:
-            self.locations.append((country_name, start_date, end_date))
-        else:
-            raise Error('End date is before start date')
+        if start_date > end_date:
+            raise Error('invalid trip dates: {} {}'.format(start_date, end_date))
+        for location in self.locations:
+            if location[0] == start_date:
+                raise Error('{}-{} already added'.format(start_date, end_date))
+        self.locations.append((start_date, end_date, country_name))
 
     def current_country(self, date_string):
         for location in self.locations:
-            if location[1] <= date_string <= location[2]:
-                return location[0]
-            else:
-                return Error('Date not found')
+            if location[0] <= date_string <= location[1]:
+                return location[2]
+        raise Error('invalid date')
 
-    # doesn't work properly
-    def is_empty(self, is_empty):
-        # creates a true of false error
-        if self.locations is '':
-            return True
-        else:
-            return False
+    def empty(self):
+        return len(self.locations) == 0
 
 
-# testing to see if stuff works
-def main():
-    australia = Country('Australia', 'AUD', '$')
-    print(australia.currency_string(100.236))
-    print(australia)
+class Error(Exception):
+    def __init__(self, value):
+        self.value = value
 
-    # details = Details()
-    # print(details.is_empty())
+    def __str__(self):
+        return repr(self.value)
 
-if __name__ == "__main__":
-    # execute only if run as a script
-    main()
+if __name__ == '__main__':
+    from currency import get_details
+    import time
+
+    print('test country class')
+    country = Country('Australia', 'AUD', '$')
+    print(country.formatted_amount(10.95))
+    country = Country.make(get_details("Turkey"))
+    print(country.formatted_amount(10.95))
+
+    print('test tripdetails class')
+    trip = Details()
+    trip.add(country, "2015/09/05", "2015/09/20")
+    trip.add(country, "2015/09/21", "2016/09/20")
+    try:
+        print(trip.current_country("2015/09/01"))
+    except Error as error:
+        print(error.value)
+
+    print(trip.current_country(time.strftime('%Y/%m/%d')))
+
+    try:
+        trip.add(country, "2015/09/05", "2015/09/20")
+    except Error as error:
+        print(error.value)

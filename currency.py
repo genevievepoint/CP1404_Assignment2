@@ -49,6 +49,14 @@ def get_details(country_name):
     return ()
 
 
+def get_all_details():
+    file = open('currency_details.txt', encoding='utf-8')
+    place_dictionary = {}
+    for line in file:
+        parts = [part for part in line.strip().split(',')]
+        place_dictionary[parts[0]] = (parts[0], parts[1], parts[2])
+    return place_dictionary
+
 if __name__ == '__main__':
     def conversion_test(amount, source, target):
         converted_amount = convert(amount, source, target)
@@ -92,10 +100,3 @@ if __name__ == '__main__':
     # print_details_test('valid details', 'Hong Kong', get_details("Hong Kong"))
 
 
-def get_all_details():
-    file = open('currency_details.txt', encoding='utf-8')
-    place_dictionary = ()
-    for line in file:
-        parts = [part for part in line.strip().split(',')]
-        place_dictionary = [parts(0), parts(1), parts(2)]
-    return place_dictionary
